@@ -21,7 +21,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
 RUN rm -rf /etc/nginx/sites-enabled/default
 COPY ./docker/nocobase-full/nocobase.conf /etc/nginx/sites-enabled/nocobase.conf
 COPY . /app/nocobase
-RUN yarn config set registry https://registry.npmjs.org/
+RUN yarn config delete proxy & yarn config delete https-proxy & yarn config set registry https://registry.npmjs.org/
 RUN cd /app/nocobase & yarn install
 RUN cd /app/nocobase & yarn build
 
