@@ -6,7 +6,7 @@ on:
       - 'main'
 env:
   registry: registry.cn-hangzhou.aliyuncs.com
-  registry_name_space: liyongfei
+  registry_name_space: yongfeili
   repo_name: nocobase
   
 jobs:
@@ -35,6 +35,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
-          build-context: name=${{ env.registry }}
           push: true
-          tags: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ github.sha }}
+          tags: |
+            ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:latest
+            ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ github.sha }}
