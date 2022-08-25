@@ -35,5 +35,6 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
+          build-context: name=${{ env.registry }}
           push: true
           tags: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ github.sha }}
