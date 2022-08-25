@@ -36,6 +36,4 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: |       
-            ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:latest
-            ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ github.sha }}
+          tags: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ github.sha }}
