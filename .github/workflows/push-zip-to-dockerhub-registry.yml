@@ -1,0 +1,77 @@
+name: push-zip-to-dockerhub-registry
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_pr_type:
+        description: 'decision image name '
+        required: true
+        default: 'feat' 
+        type: choice
+        options:
+          - feat
+          - bug
+
+env:
+  registry: docker.io
+  registry_name_space: yongfeili
+  repo_url: git@github.com:jiyeking/nocobase.git
+  repo_name: nocobase
+  workdir: /workdir
+  docker_compose_file: ./docker/nocobase-full/mysql-docker-compose.yml
+  
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      - 
+        name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          filename: 'release.zip'
+          exclusions: '*.git* /*node_modules/* .editorconfig'
+      -
+        name: Build & push zip Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: ${{ env.registry_name_space }}/${{ env.repo_name }}
+          tags: ${{ inputs.deploy_pr_type }}-zip-${{ github.sha }}
+          registry: ${{ env.registry }}
+          dockerfile: zipDockerfile
+          username: ${{ secrets.ALI_REGISTRY_NAME }}
+          password: ${{ secrets.ALI_REGISTRY_PWD }}   
+      - 
+        name: ssh deploy
+        uses: appleboy/ssh-action@master
+        env:
+            ZIP_IMAGETAG: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-zip-${{ github.sha }}
+            IMAGETAG: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
+            REPO_URL: ${{ env.repo_url }}
+            REGISTRY: ${{ env.registry }}
+            ALI_REGISTRY_NAME: ${{ env.registry_name_space }}
+            ALI_REGISTRY_PWD: ${{ secrets.DOCKERHUB_YONGFEILI }}
+            WORKDIR: ${{ env.workdir }}
+            REPO_DIR: ${{ env.workdir }}/${{ env.repo_name }}
+            REF_NAME: ${{ github.ref_name }}
+            DOCKER_COMPOSE_FILE: ${{ env.docker_compose_file }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
+          envs: IMAGETAG,REPO_URL,WORKDIR,REPO_DIR,REF_NAME,DOCKER_COMPOSE_FILE,REGISTRY,ALI_REGISTRY_NAME,ALI_REGISTRY_PWD,ZIP_IMAGETAG
+          script_stop: true
+          debug: true
+          script: | 
+            docker login --username=$ALI_REGISTRY_NAME --password=$ALI_REGISTRY_PWD $REGISTRY
+            docker pull $ZIP_IMAGETAG
+            docker run --name copyZip  -v $WORKDIR:/workDir $ZIP_IMAGETAG
+            docker rm copyZip
+            cd $WORKDIR
+            unzip release.zip
+            docker image build -t $IMAGETAG .
+            docker-compose -f $DOCKER_COMPOSE_FILE up -d
+      
