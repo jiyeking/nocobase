@@ -1,0 +1,6 @@
+FROM alpine:latest
+
+WORKDIR /zipDir
+RUN mkdir /workDir
+COPY ./release.zip /zipDir
+CMD ["cp","./release.zip","/workDir"]
