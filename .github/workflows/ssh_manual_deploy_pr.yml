@@ -42,7 +42,7 @@ jobs:
           debug: true
           script: |
             echo 'do mkdir'    
-            [ ! -d $WORKDIR ] && mkdir $WORKDIR
+            cd $WORKDIR
             echo 'git clone'
             [ ! -d $REPO_DIR ] && echo yes | git clone $REPO_URL
             echo 'change dir $REPO_DIR'
