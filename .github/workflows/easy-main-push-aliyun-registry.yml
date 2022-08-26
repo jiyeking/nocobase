@@ -1,0 +1,28 @@
+name: easy-main-push-aliyun-registry
+
+on:
+  push:
+    branches:
+      - 'main'
+env:
+  registry: registry.cn-hangzhou.aliyuncs.com
+  registry_name_space: yongfeili
+  repo_name: nocobase
+  
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3 
+      -
+        name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: ${{ env.registry_name_space }}/${{ env.repo_name }}
+          tags: ${{ github.sha }}, latest
+          registry: ${{ env.registry }}
+          dockerfile: Dockerfile
+          username: ${{ secrets.ALI_REGISTRY_NAME }}
+          password: ${{ secrets.ALI_REGISTRY_PWD }}
