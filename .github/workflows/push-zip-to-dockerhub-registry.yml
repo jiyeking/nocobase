@@ -42,8 +42,8 @@ jobs:
           tags: ${{ inputs.deploy_pr_type }}-zip-${{ github.sha }}
           registry: ${{ env.registry }}
           dockerfile: zipDockerfile
-          username: ${{ secrets.ALI_REGISTRY_NAME }}
-          password: ${{ secrets.ALI_REGISTRY_PWD }}   
+          username: ${{ env.registry_name_space }}
+          password: ${{ secrets.DOCKERHUB_YONGFEILI }}   
       - 
         name: ssh deploy
         uses: appleboy/ssh-action@master
