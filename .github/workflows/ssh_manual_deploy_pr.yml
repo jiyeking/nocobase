@@ -14,7 +14,7 @@ on:
 env:
   registry: registry.cn-hangzhou.aliyuncs.com
   registry_name_space: yongfeili
-  repo_url: git clone https://github.com/jiyeking/nocobase.git
+  repo_url: https://github.com/jiyeking/nocobase.git
   repo_name: nocobase
   workdir: /workdir
   docker_compose_file: ./docker/nocobase-full/mysql-docker-compose.yml
@@ -39,6 +39,7 @@ jobs:
           password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
           envs: IMAGETAG,REPO_URL,WORKDIR,REPO_DIR,REF_NAME,DOCKER_COMPOSE_FILE
           script_stop: true
+          debug: true
           script: |
             [ ! -d $WORKDIR ] && mkdir $WORKDIR
             [ ! -d $REPO_DIR ] && git clone $REPO_URL
