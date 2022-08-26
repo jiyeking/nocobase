@@ -47,3 +47,26 @@ jobs:
             ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
           cache-from: type=registry,ref=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:buildcache
           cache-to: type=registry,ref=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:buildcache,mode=max
+    
+      - 
+        name: copy deploy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
+          source: "./docker/nocobase-full/mysql-docker-compose.yml"
+          target: "/deploy"
+      - 
+        name: ssh deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
+          script: |
+            docker login --username=${{ secrets.ALI_REGISTRY_NAME }} --password=${{ secrets.ALI_REGISTRY_PWD }} ${{ env.registry }}
+            docker pull ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
+            export IMAGETAG=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
+            docker-compose up -d
+        

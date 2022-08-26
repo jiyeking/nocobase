@@ -1,0 +1,49 @@
+name: ssh_manual_deploy_pr
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_pr_type:
+        description: 'decision image name '
+        required: true
+        default: 'feat' 
+        type: choice
+        options:
+          - feat
+          - bug
+
+env:
+  registry: registry.cn-hangzhou.aliyuncs.com
+  registry_name_space: yongfeili
+  repo_url: git clone https://github.com/jiyeking/nocobase.git
+  repo_name: nocobase
+  workdir: /workdir
+  docker_compose_file: ./docker/nocobase-full/mysql-docker-compose.yml
+  
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: ssh deploy
+        uses: appleboy/ssh-action@master
+        env:
+            IMAGETAG: ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
+            REPO_URL: ${{ env.repo_url }}
+            WORKDIR: ${{ env.workdir }}
+            REPO_DIR: ${{ env.workdir }}/${{ env.repo_name }}
+            REF_NAME: ${{ github.ref_name }}
+            DOCKER_COMPOSE_FILE: ${{ env.docker_compose_file }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_HOST_USERNAME }}
+          password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
+          envs: IMAGETAG,REPO_URL,WORKDIR,REPO_DIR,REF_NAME,DOCKER_COMPOSE_FILE
+          script: |
+            [ ! -d $WORKDIR ] && mkdir $WORKDIR
+            [ ! -d $REPO_DIR ] && git clone $REPO_URL && cd $REPO_DIR
+            git fetch --all
+            git pull --all
+            git checkout $REF_NAME
+            docker image build -t $IMAGETAG .
+            docker-compose -f $DOCKER_COMPOSE_FILE up -d
+        
