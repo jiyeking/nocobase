@@ -68,6 +68,8 @@ jobs:
           script: | 
             docker login --username=$ALI_REGISTRY_NAME --password=$ALI_REGISTRY_PWD $REGISTRY
             docker pull $ZIP_IMAGETAG
+            cd /workdir
+            rm -rf ./*
             docker run --name copyZip  -v $WORKDIR:/workDir $ZIP_IMAGETAG
             docker rm copyZip
             cd $WORKDIR
