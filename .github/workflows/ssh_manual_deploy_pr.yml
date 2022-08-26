@@ -38,9 +38,11 @@ jobs:
           username: ${{ secrets.DEPLOY_HOST_USERNAME }}
           password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
           envs: IMAGETAG,REPO_URL,WORKDIR,REPO_DIR,REF_NAME,DOCKER_COMPOSE_FILE
+          script_stop: true
           script: |
             [ ! -d $WORKDIR ] && mkdir $WORKDIR
-            [ ! -d $REPO_DIR ] && git clone $REPO_URL && cd $REPO_DIR
+            [ ! -d $REPO_DIR ] && git clone $REPO_URL
+            cd $REPO_DIR
             git fetch --all
             git pull --all
             git checkout $REF_NAME
