@@ -73,7 +73,7 @@ jobs:
             docker run --name copyZip  -v $WORKDIR:/workDir $ZIP_IMAGETAG
             docker rm copyZip
             cd $WORKDIR
-            unzip release.zip
+            unzip -o release.zip
             docker image build -t $IMAGETAG .
             docker-compose -f $DOCKER_COMPOSE_FILE up -d
       
