@@ -14,7 +14,7 @@ on:
 env:
   registry: registry.cn-hangzhou.aliyuncs.com
   registry_name_space: yongfeili
-  repo_url: https://github.com/jiyeking/nocobase.git
+  repo_url: git@github.com:jiyeking/nocobase.git
   repo_name: nocobase
   workdir: /workdir
   docker_compose_file: ./docker/nocobase-full/mysql-docker-compose.yml
