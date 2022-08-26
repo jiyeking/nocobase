@@ -65,6 +65,7 @@ jobs:
           envs: IMAGETAG,REPO_URL,WORKDIR,REPO_DIR,REF_NAME,DOCKER_COMPOSE_FILE,REGISTRY,ALI_REGISTRY_NAME,ALI_REGISTRY_PWD,ZIP_IMAGETAG
           script_stop: true
           debug: true
+          command_timeout: 50m
           script: | 
             docker login --username=$ALI_REGISTRY_NAME --password=$ALI_REGISTRY_PWD $REGISTRY
             docker pull $ZIP_IMAGETAG
