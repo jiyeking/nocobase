@@ -45,3 +45,5 @@ jobs:
           push: true
           tags: |
             ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
+          cache-from: type=registry,ref=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:buildcache
+          cache-to: type=registry,ref=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:buildcache,mode=max
