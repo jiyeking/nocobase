@@ -2,7 +2,7 @@ FROM node:16-stretch-slim
 
 WORKDIR /app/nocobase
 
-# COPY ./docker/nocobase/sources.list /etc/apt/sources.list
+COPY ./docker/nocobase/sources.list /etc/apt/sources.list
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
@@ -22,7 +22,7 @@ RUN rm -rf /etc/nginx/sites-enabled/default
 COPY ./docker/nocobase-full/nocobase.conf /etc/nginx/sites-enabled/nocobase.conf
 COPY . /app/nocobase
 # RUN yarn config delete proxy & yarn config delete https-proxy & yarn config set registry https://registry.npmjs.org/
-RUN cd /app/nocobase & yarn install --registry https://registry.npmjs.org/
+RUN cd /app/nocobase & yarn install --registry https://registry.npmmirror.com/
 RUN cd /app/nocobase & yarn build
 
 COPY ./docker/nocobase-full/docker-entrypoint.sh /app/
