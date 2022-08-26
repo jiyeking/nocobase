@@ -41,8 +41,11 @@ jobs:
           script_stop: true
           debug: true
           script: |
+            echo 'do mkdir'    
             [ ! -d $WORKDIR ] && mkdir $WORKDIR
-            [ ! -d $REPO_DIR ] && git clone $REPO_URL
+            echo 'git clone'
+            [ ! -d $REPO_DIR ] && echo yes | git clone $REPO_URL
+            echo 'change dir $REPO_DIR'
             cd $REPO_DIR
             git fetch --all
             git pull --all
