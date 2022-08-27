@@ -26,6 +26,7 @@ jobs:
           echo "Y" | apt-get install expect
           pwd
           ls
+          chmod +x ./npm_registry_test.sh
           ./npm_registry_test.sh
           npm whoami --registry http://verdaccio:4873
       
