@@ -23,11 +23,11 @@ jobs:
         run: |
           sleep 5
           apt-get update 
-          echo "Y" | apt-get install expect
+          apt-get -y install expect
           pwd
           ls
-          chmod +x ./npm_registry_test.sh
-          ./npm_registry_test.sh
+          chmod +x ./npm_registry_test.expect
+          ./npm_registry_test.expect
           npm whoami --registry http://verdaccio:4873
       
 
