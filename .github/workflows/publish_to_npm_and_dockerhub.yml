@@ -28,7 +28,7 @@ jobs:
           ls
           chmod +x ./npm_registry_test.expect
       - name: exec expect
-        run: ./npm_registry_test.expect
+        run: expect ./npm_registry_test.expect
         shell: expect {0}
       - name: test private npm registry
         run: |
