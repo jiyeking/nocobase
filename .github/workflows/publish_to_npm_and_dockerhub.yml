@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: sleep 5
       - run: apt-get update 
-      - run: apt-get install expect
+      - run: echo "Y" | apt-get install expect
       - run: chmod +x ./npm_registry_test.sh && ./npm_registry_test.sh
       - run: npm whoami --registry http://verdaccio:4873
       
