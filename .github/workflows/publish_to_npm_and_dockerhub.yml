@@ -16,6 +16,7 @@ jobs:
         image: verdaccio/verdaccio
         ports:
           - 4873:4873
+        options: --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - run: echo ${{ job.services.verdaccio.ports['4873'] }}
