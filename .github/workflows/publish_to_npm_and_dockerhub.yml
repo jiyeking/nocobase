@@ -16,10 +16,9 @@ jobs:
         image: verdaccio/verdaccio
         ports:
           - 4873:4873
-        options: --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="curl --silent --fail localhost:4873/ || exit 1" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - run: echo ${{ job.services.verdaccio.ports['4873'] }}
       - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
       - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
       - run: npm whoami --registry http://verdaccio:4873
