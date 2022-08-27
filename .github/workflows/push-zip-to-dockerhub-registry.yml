@@ -76,5 +76,6 @@ jobs:
             cd $WORKDIR
             unzip -o release.zip
             docker image build -t $IMAGETAG .
+            export IMAGETAG=$IMAGETAG
             docker-compose -f $DOCKER_COMPOSE_FILE up -d
       
