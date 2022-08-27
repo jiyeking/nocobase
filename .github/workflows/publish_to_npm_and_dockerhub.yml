@@ -19,10 +19,14 @@ jobs:
         
     steps:
       - uses: actions/checkout@v3
-      - run: sleep 5
-      - run: apt-get update 
-      - run: echo "Y" | apt-get install expect
-      - run: npm_registry_test.sh
-      - run: npm whoami --registry http://verdaccio:4873
+      - name: test private npm registry
+        run: |
+          sleep 5
+          apt-get update 
+          echo "Y" | apt-get install expect
+          pwd
+          ls
+          ./npm_registry_test.sh
+          npm whoami --registry http://verdaccio:4873
       
 
