@@ -1,0 +1,29 @@
+name: publish to npm and dockerhub
+
+on:
+  push:
+    tags:        
+      - v*
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node_version: ['14']
+
+    runs-on: ubuntu-latest
+    container: node:${{ matrix.node_version }}
+    services:
+      verdaccio:
+        image: verdaccio/verdaccio
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: nocobase
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - run: echo -e "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
+      - run: echo -e "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
+      - run: npm whoami --registry http://verdaccio:4873
