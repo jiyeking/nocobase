@@ -19,7 +19,7 @@ jobs:
         
     steps:
       - uses: actions/checkout@v3
-      - name: test private npm registry
+      - name: install expect
         run: |
           sleep 5
           apt-get update 
@@ -27,7 +27,11 @@ jobs:
           pwd
           ls
           chmod +x ./npm_registry_test.expect
-          ./npm_registry_test.expect
+      - name: exec expect
+        run: ./npm_registry_test.expect
+        shell: expect {0}
+      - name: test private npm registry
+        run: |
           npm whoami --registry http://verdaccio:4873
       
 
