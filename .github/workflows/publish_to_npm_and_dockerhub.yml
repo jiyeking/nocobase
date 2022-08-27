@@ -22,7 +22,7 @@ jobs:
       - run: sleep 5
       - run: apt-get update 
       - run: echo "Y" | apt-get install expect
-      - run: chmod +x ./npm_registry_test.sh && ./npm_registry_test.sh
+      - run: npm_registry_test.sh
       - run: npm whoami --registry http://verdaccio:4873
       
 
