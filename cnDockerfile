@@ -22,8 +22,7 @@ RUN rm -rf /etc/nginx/sites-enabled/default
 COPY ./docker/nocobase-full/nocobase.conf /etc/nginx/sites-enabled/nocobase.conf
 COPY . /app/nocobase
 # RUN yarn config delete proxy & yarn config delete https-proxy & yarn config set registry https://registry.npmjs.org/
-RUN yarn config set registry https://registry.npmmirror.com/ -g
-RUN yarn config set sqlite3_binary_host_mirror https://npmmirror.com/mirrors/sqlite3/ -g
+RUN cp /app/nocobase/.yarnrc_cn /app/nocobase/.yarnrc
 RUN cd /app/nocobase & yarn install
 RUN cd /app/nocobase & yarn build
 
