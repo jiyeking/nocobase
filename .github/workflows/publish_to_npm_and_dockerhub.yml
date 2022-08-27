@@ -18,6 +18,6 @@ jobs:
           - 4873:4873
 
     steps:
-      - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
-      - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
+      - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://localhost:4873
+      - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://localhost:4873
       - run: npm whoami --registry http://verdaccio:4873
