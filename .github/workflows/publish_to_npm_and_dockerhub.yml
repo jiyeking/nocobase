@@ -18,7 +18,6 @@ jobs:
           - 4873:4873
         
     steps:
-      - run: /usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}"
       - run: sleep 30
       - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
       - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
