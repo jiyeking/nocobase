@@ -19,6 +19,6 @@ jobs:
         
     steps:
       - run: sleep 30
-      - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
+      - run: npm adduser --registry http://verdaccio:4873
       - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
       - run: npm whoami --registry http://verdaccio:4873
