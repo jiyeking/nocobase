@@ -14,6 +14,8 @@ jobs:
     services:
       verdaccio:
         image: verdaccio/verdaccio
+        ports:
+          - 4873:4873
 
     steps:
       - run: echo "test\n123456\ntest@mail.com" | npm adduser --registry http://verdaccio:4873
