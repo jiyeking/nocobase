@@ -18,7 +18,10 @@ jobs:
           - 4873:4873
         
     steps:
-      - run: sleep 30
-      - run: npm adduser --registry http://verdaccio:4873
-      - run: echo "test\n123456\ntest@mail.com" | npm login --registry http://verdaccio:4873
+      - uses: actions/checkout@v3
+      - run: sleep 5
+      - run: apt-get install expect
+      - run: chmod +x ./npm_registry_test.sh && ./npm_registry_test.sh
       - run: npm whoami --registry http://verdaccio:4873
+      
+
