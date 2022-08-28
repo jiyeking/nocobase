@@ -49,7 +49,7 @@ jobs:
         run: | 
           npm whoami --registry http://verdaccio:4873
           yarn version:alpha -y
-          yarn release --registry http://verdaccio:4873
+          yarn release:force --registry http://verdaccio:4873
           npm view @nocobase/server | grep @nocobase/server@
           
       
