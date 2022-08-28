@@ -56,6 +56,15 @@ jobs:
           yarn release:force --registry http://verdaccio:4873
           npm config set registry http://verdaccio:4873
           npm view @nocobase/server 
+      - name: test published package
+        run: |
+          cd ../
+          yarn config set registry http://verdaccio:4873
+          yarn create nocobase-app my-nocobase-app -d sqlite
+          cd my-nocobase-app
+          yarn install
+          yarn nocobase install --lang=zh-CN
+          yarn start
           
       
 
