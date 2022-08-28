@@ -48,7 +48,7 @@ jobs:
       - name: publish new version to test npm registry
         run: | 
           npm whoami --registry http://verdaccio:4873
-          yarn version:alpha
+          yarn version:alpha -y
           yarn release --registry http://verdaccio:4873
           npm view @nocobase/server | grep @nocobase/server@
           
