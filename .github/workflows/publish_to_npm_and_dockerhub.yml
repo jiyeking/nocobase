@@ -49,6 +49,8 @@ jobs:
         run: | 
           npm whoami --registry http://verdaccio:4873
           yarn version:alpha -y
+          git config user.email "test@mail.com"
+          git config user.name "test"
           git add .
           git commit -m "test publish new version"
           yarn release:force --registry http://verdaccio:4873
