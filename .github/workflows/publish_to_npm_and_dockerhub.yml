@@ -54,7 +54,7 @@ jobs:
           git add .
           git commit -m "chore(versions): publish packages xxx"
           yarn release:force --registry http://verdaccio:4873
-          npm view @nocobase/server | grep @nocobase/server@ --registry http://verdaccio:4873
+          npm view @nocobase/server --registry http://verdaccio:4873 | grep @nocobase/server@ 
           
       
 
