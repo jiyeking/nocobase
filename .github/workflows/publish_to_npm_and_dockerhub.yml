@@ -19,15 +19,15 @@ jobs:
         
     steps:
       - uses: actions/checkout@v3
+      - name: yarn install and build
+        run: |
+          yarn install
+          yarn build
       - name: install expect
         run: |
-          sleep 5
           apt-get update 
           apt-get -y install expect
-          pwd
-          ls
-          chmod +x ./npm_registry_test.expect
-      - name: exec expect
+      - name: adduser and login test npm registry
         run: |
           set timeout 10
           spawn npm adduser --registry http://verdaccio:4873
@@ -45,8 +45,12 @@ jobs:
           expect "Email: (this IS public)"
           send "test@mail.com\n"
         shell: expect {0}
-      - name: test private npm registry
-        run: |
+      - name: publish new version to test npm registry
+        run: | 
           npm whoami --registry http://verdaccio:4873
+          yarn version:alpha
+          yarn release --registry http://verdaccio:4873
+          npm view @nocobase/server | grep @nocobase/server@
+          
       
 
