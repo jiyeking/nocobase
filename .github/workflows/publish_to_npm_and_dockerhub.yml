@@ -52,7 +52,7 @@ jobs:
           git config user.email "test@mail.com"
           git config user.name "test"
           git add .
-          git commit -m "test publish new version"
+          git commit -m "chore(versions): publish packages xxx"
           yarn release:force --registry http://verdaccio:4873
           npm view @nocobase/server | grep @nocobase/server@ --registry http://verdaccio:4873
           
