@@ -49,8 +49,10 @@ jobs:
         run: | 
           npm whoami --registry http://verdaccio:4873
           yarn version:alpha -y
+          git add .
+          git commit -m "test publish new version"
           yarn release:force --registry http://verdaccio:4873
-          npm view @nocobase/server | grep @nocobase/server@
+          npm view @nocobase/server | grep @nocobase/server@ --registry http://verdaccio:4873
           
       
 
