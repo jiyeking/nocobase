@@ -20,13 +20,12 @@ jobs:
         run: |
           echo '::echo::on'
           version_info=$(npm view '@nocobase/server')
-          /bin/bash -c npm view '@nocobase/server' | grep '@nocobase/server@'
-          version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
+          echo $version_info > version_info.log
+          version_info_line=$(grep '@nocobase/server@' version_info.log)
           echo $version_info_line
-          echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}'
-          version=$(echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}')
+          echo $version_info_line > version_info_line.log
+          version=$(awk '{print $1}' version_info_line.log)
+          echo $version > version.log
+          version=$(awk -F '@' '{print $3}' version.log)
           echo $version
-        shell: bash {0}
-      -  
-        run: npm view '@nocobase/server' | grep '@nocobase/server@'
         shell: bash {0}
