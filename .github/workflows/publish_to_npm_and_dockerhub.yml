@@ -58,15 +58,23 @@ jobs:
           echo '::set-output name=VERSION::$version'
         shell: bash {0}
 
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3 
       - name: publish docker hub
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: ${{ env.registry_name_space }}/${{ env.repo_name }}
-          tags: ${{ steps.publish_version.outputs.VERSION }},latest
+          tags: ${{ needs.test.outputs.version }},latest
           registry: ${{ env.registry }}
           dockerfile: ./docker/nocobase/Dockerfile
           username: ${{ env.registry_name_space }}
-          password: ${{ secrets.DOCKERHUB_YONGFEILI }}  
+          password: ${{ secrets.DOCKERHUB_YONGFEILI }} 
+
           
       
 
