@@ -47,24 +47,8 @@ jobs:
         shell: expect {0}
       - name: publish new version to test npm registry
         run: | 
-          npm whoami --registry http://verdaccio:4873
-          yarn version:alpha -y
-          git config user.email "test@mail.com"
-          git config user.name "test"
-          git add .
-          git commit -m "chore(versions): publish packages xxx"
-          yarn release:force --registry http://verdaccio:4873
-          npm config set registry http://verdaccio:4873
-          npm view @nocobase/server 
-      - name: test published package
-        run: |
-          cd ../
-          yarn config set registry http://verdaccio:4873
-          yarn create nocobase-app my-nocobase-app -d sqlite
-          cd my-nocobase-app
-          yarn install
-          yarn nocobase install --lang=zh-CN
-          yarn start
+          chmod +x ./action_publish_new_version_with_test.sh
+          ./action_publish_new_version_with_test.sh
           
       
 
