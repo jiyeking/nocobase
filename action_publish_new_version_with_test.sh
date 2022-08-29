@@ -12,7 +12,7 @@ git commit -m "chore(versions): publish packages xxx"
 yarn release:force --registry http://verdaccio:4873
 npm config set registry http://verdaccio:4873
 
-version=$(echo ${$(npm view @nocobase/server | grep @nocobase/server@):0:1} | awk -F '@' '{print $3}')
+version=$(echo ${$(npm view @nocobase/server | grep '@nocobase/server@'):0:1} | awk -F '@' '{print $3}')
 result = $(cat packages/app/server/package.json | grep $version)
 if [[ $result != "" ]]
 then
