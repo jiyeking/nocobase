@@ -14,7 +14,7 @@ npm config set registry http://verdaccio:4873
 
 version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
 version=$(echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}')
-result = $(cat packages/app/server/package.json | grep $version)
+result=$(cat packages/app/server/package.json | grep $version)
 if [[ $result != "" ]]
 then
   echo "publish test npm registry success"
@@ -34,7 +34,7 @@ yarn start > start.log &
 n=0;
 while($n<=100) do
  # NocoBase server running at: http://localhost:13000/
-  start_flag_str = $(cat start.log | grep "NocoBase server running at: http://localhost:13000/")
+  start_flag_str=$(cat start.log | grep "NocoBase server running at: http://localhost:13000/")
   if [[ $start_flag_str != "" ]]
   then
     echo $start_flag_str
@@ -47,7 +47,7 @@ while($n<=100) do
   sleep 10;
 done
 # {"data":{"lang":"zh-CN"}}
-lang_data = $(curl http://localhost:13000/api/app:getLang)
+lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
 if [[ $lang_data == '{"data":{"lang":"zh-CN"}}' ]]
 then
