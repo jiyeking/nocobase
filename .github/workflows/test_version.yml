@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:${{ matrix.node_version }}
     steps:
+      - uses: actions/checkout@v3
       - 
         run: |
           echo '::echo::on'
