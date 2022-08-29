@@ -2,7 +2,12 @@ name: publish to npm and dockerhub
 
 on:
   push:
-
+  
+env:
+  registry: docker.io
+  registry_name_space: yongfeili
+  repo_name: nocobase
+  
 jobs:
   test:
     strategy:
@@ -46,9 +51,22 @@ jobs:
           send "test@mail.com\n"
         shell: expect {0}
       - name: publish new version to test npm registry
+        id: publish_version
         run: | 
           chmod +x ./action_publish_new_version_with_test.sh
           ./action_publish_new_version_with_test.sh
+          echo '::set-output name=VERSION::$version'
+        shell: bash {0}
+
+      - name: publish docker hub
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: ${{ env.registry_name_space }}/${{ env.repo_name }}
+          tags: ${{ steps.publish_version.outputs.VERSION }},latest
+          registry: ${{ env.registry }}
+          dockerfile: ./docker/nocobase/Dockerfile
+          username: ${{ env.registry_name_space }}
+          password: ${{ secrets.DOCKERHUB_YONGFEILI }}  
           
       
 
