@@ -20,7 +20,7 @@ jobs:
           echo '::echo::on'
           echo "action_state=yellow" >> $GITHUB_ENV
           version_str=$(npm view '@nocobase/server')
-          echo $version_str >> $version_info
+          echo "version_info=$version_str" >> $GITHUB_ENV
           echo ${{ env.version_info }}
         shell: bash {0}
       - 
