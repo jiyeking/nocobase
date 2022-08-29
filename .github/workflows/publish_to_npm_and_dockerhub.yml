@@ -53,6 +53,7 @@ jobs:
       - name: publish new version to test npm registry
         id: publish_version
         run: | 
+          echo '::echo::on'
           chmod +x ./action_publish_new_version_with_test.sh
           ./action_publish_new_version_with_test.sh
           echo '::set-output name=VERSION::$version'
