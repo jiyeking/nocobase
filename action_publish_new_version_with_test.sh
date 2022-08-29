@@ -11,8 +11,9 @@ git commit -m "chore(versions): publish packages xxx"
 # publish test npm registry
 yarn release:force --registry http://verdaccio:4873
 npm config set registry http://verdaccio:4873
-version=`echo ${$(npm view @nocobase/server | grep @nocobase/server@):0:1} | awk -F '@' '{print $3}'`
-result = `cat packages/app/server/package.json | grep $version`
+
+version=$(echo ${$(npm view @nocobase/server | grep @nocobase/server@):0:1} | awk -F '@' '{print $3}')
+result = $(cat packages/app/server/package.json | grep $version)
 if [[ $result != "" ]]
 then
   echo "publish test npm registry success"
@@ -32,7 +33,7 @@ yarn start > start.log &
 n=0;
 while($n<=100) do
  # NocoBase server running at: http://localhost:13000/
-  start_flag_str = `cat start.log | grep "NocoBase server running at: http://localhost:13000/"`
+  start_flag_str = $(cat start.log | grep "NocoBase server running at: http://localhost:13000/")
   if [[ $start_flag_str != "" ]]
   then
     echo $start_flag_str
