@@ -19,7 +19,8 @@ jobs:
       - 
         run: |
           echo '::echo::on'
-          npm view '@nocobase/server'
+          version_info=$(npm view '@nocobase/server')
+          echo $version_info
           npm view '@nocobase/server' | grep '@nocobase/server@'
           version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
           echo $version_info_line
