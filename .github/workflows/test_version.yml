@@ -26,4 +26,6 @@ jobs:
           echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}'
           version=$(echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}')
           echo $version
+      -  
+        run: npm view '@nocobase/server' | grep '@nocobase/server@'
         shell: bash {0}
