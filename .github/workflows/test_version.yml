@@ -19,14 +19,13 @@ jobs:
         run: |
           echo '::echo::on'
           echo "action_state=yellow" >> $GITHUB_ENV
-          version_info=$(npm view '@nocobase/server')
-          echo version_info >> $version_info
+          version_str=$(npm view '@nocobase/server')
+          echo $version_str >> $version_info
           echo ${{ env.version_info }}
         shell: bash {0}
       - 
         run: |
           import os
-          print(os.environ['PATH'])
           print(os.environ)
-          print(os.environ['GITHUB_ENV'])
+          print(os.environ['version_info'])
         shell: python {0}
