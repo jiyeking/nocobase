@@ -19,4 +19,4 @@ jobs:
       run: |
         version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
         version=$(awk -F '@' '{print $3}' ${$version_info_line:0:1})
-        echo version
+        echo $version
