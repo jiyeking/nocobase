@@ -14,7 +14,9 @@ npm config set registry http://verdaccio:4873
 
 version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
 version=$(echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}')
+echo "version is $version"
 result=$(cat packages/app/server/package.json | grep $version)
+echo "result is $result"
 if [[ $result != "" ]]
 then
   echo "publish test npm registry success"
