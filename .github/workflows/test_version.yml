@@ -15,16 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     container: node:${{ matrix.node_version }}
     steps:
-      - uses: actions/checkout@v3
       - 
         run: |
           echo '::echo::on'
-          npm view '@nocobase/server' >> $version_info
+          echo "action_state=yellow" >> $GITHUB_ENV
+          echo $(npm view '@nocobase/server') >> $version_info
           echo $version_info
         shell: bash {0}
       - 
         run: |
           import os
           print(os.environ['PATH'])
-          rint(os.environ['version_info'])
+          print(os.environ['version_info'])
+          print(os.environ['GITHUB_ENV'])
         shell: python {0}
