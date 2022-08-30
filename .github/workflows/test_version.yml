@@ -24,7 +24,10 @@ jobs:
           echo $test_str
           echo ${var:0:5}
           echo ${var:0:5}
-          echo ${test_str:1}
+          echo $test_str |awk '{print $1}'
+          echo $test_str |awk '{print $0}'
+          echo $test_str |awk '{print $2}'
+          
           echo "action_state=yellow" >> $GITHUB_ENV
           test_str=$(npm view '@nocobase/server')
           echo ${test_str:0:0}
