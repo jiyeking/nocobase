@@ -60,7 +60,8 @@ jobs:
           version_info_line=$(npm view '@nocobase/server')
           version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
           echo $version
-          echo "version=$version" >> $GITHUB_ENV     
+          echo "version=$version" >> $GITHUB_ENV 
+          echo $version
           echo '::set-output name=version::$version'
         shell: bash {0}
     outputs:
