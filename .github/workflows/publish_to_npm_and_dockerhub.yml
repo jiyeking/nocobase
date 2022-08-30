@@ -59,7 +59,7 @@ jobs:
           ./action_publish_new_version_with_test.sh
           version_info_line=$(npm view '@nocobase/server')
           version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
-          echo '::set-output name=version::$version'
+          echo '::set-output name=version::0.7.4-alpha.8'
         shell: bash {0}
     outputs:
       version: ${{ steps.publish_version.outputs.version }}
