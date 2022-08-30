@@ -20,6 +20,7 @@ jobs:
           echo '::echo::on'
           var=http://www.aaa.com/123.htm
           echo ${var:0:5}
+          echo $var |grep aaa
           echo "action_state=yellow" >> $GITHUB_ENV
           test_str=$(npm view '@nocobase/server')
           echo ${test_str:0:0}
