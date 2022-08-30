@@ -18,9 +18,9 @@ echo $version_info_line |awk '{print $1}'
 echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}'
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
 echo "version is $version"
-result=$(cat packages/app/server/package.json | grep $version)
-echo "result is $result"
-if [[ $result != "" ]]
+package_info=$(cat packages/app/server/package.json)
+echo "package_info is $package_info"
+if [[ $package_info=~$version ]]
 then
   echo "publish test npm registry success"
 else
@@ -42,7 +42,7 @@ n=0;
 while($n<=100) do
  # NocoBase server running at: http://localhost:13000/
   cat start.log
-  start_flag_str=$(cat start.log | grep "NocoBase server running at: http://localhost:13000/")
+  start_flag_str=$(cat start.log |grep "NocoBase server running at")
   if [[ $start_flag_str != "" ]]
   then
     echo $start_flag_str
