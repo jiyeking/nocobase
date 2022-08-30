@@ -13,14 +13,9 @@ yarn release:force --registry http://verdaccio:4873
 npm config set registry http://verdaccio:4873
 
 version_info_line=$(npm view '@nocobase/server')
-echo $version_info_line
-echo $version_info_line |awk '{print $1}'
-echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}'
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
-export version=$version
-echo "version is $version"
+echo '::set-output name=VERSION::$version'
 package_info=$(cat packages/app/server/package.json)
-echo "package_info is $package_info"
 if [[ $package_info=~$version ]]
 then
   echo "publish test npm registry success"
