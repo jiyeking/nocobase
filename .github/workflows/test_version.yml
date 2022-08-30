@@ -25,4 +25,7 @@ jobs:
           yarn nocobase install --lang=zh-CN
           yarn start > start.log &
           cat start.log
+          cat start.log
+          cat start.log
+          cat start.log
         shell: bash {0}
