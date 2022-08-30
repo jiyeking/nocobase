@@ -23,8 +23,12 @@ jobs:
           echo '::echo::on'
           package_info=$(cat packages/app/server/package.json)
           version='0.7.4-alpha.8'
-          result=$(echo $package_info |grep $version)
-          echo "result is $result"
-          echo $package_info |grep `0.7.4-alpha.8`
-          echo "result is $result"
+          echo $package_info |grep ${version}
+          if [[ $package_info == *$version* ]]
+          then
+            echo 'publish version success'
+          else
+            echo "ERROR! publish version fail!"
+            exit 1
+          fi 
         shell: bash {0}
