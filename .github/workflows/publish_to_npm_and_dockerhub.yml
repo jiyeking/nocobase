@@ -76,7 +76,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: ${{ env.registry_name_space }}/${{ env.repo_name }}
-          tags: ${{ env.version }}, latest
+          tags: ${{ needs.test.outputs.version }}, latest
           registry: ${{ env.registry }}
           dockerfile: ./docker/nocobase/Dockerfile
           directory: ./docker/nocobase/
