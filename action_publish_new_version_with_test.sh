@@ -15,7 +15,7 @@ npm config set registry http://verdaccio:4873
 version_info_line=$(npm view '@nocobase/server')
 echo $version_info_line
 echo $version_info_line |awk '{print $1}'
-echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}
+echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}'
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
 echo "version is $version"
 result=$(cat packages/app/server/package.json | grep $version)
@@ -29,6 +29,8 @@ else
 fi
 
 # test published package
+
+
 cd ../
 yarn config set registry http://verdaccio:4873
 yarn create nocobase-app my-nocobase-app -d sqlite
@@ -39,6 +41,7 @@ yarn start > start.log &
 n=0;
 while($n<=100) do
  # NocoBase server running at: http://localhost:13000/
+  cat start.log
   start_flag_str=$(cat start.log | grep "NocoBase server running at: http://localhost:13000/")
   if [[ $start_flag_str != "" ]]
   then
@@ -51,7 +54,9 @@ while($n<=100) do
   n=$n+1;
   sleep 10;
 done
+
 # {"data":{"lang":"zh-CN"}}
+
 lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
 if [[ $lang_data == '{"data":{"lang":"zh-CN"}}' ]]
