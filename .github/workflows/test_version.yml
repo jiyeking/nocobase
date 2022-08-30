@@ -21,7 +21,10 @@ jobs:
           var=http://www.aaa.com/123.htm
           echo ${var:0:5}
           test_str=$(npm view '@nocobase/server')
-          echo $test_str |grep @nocobase/server@
+          echo $test_str
+          echo ${var:0:5}
+          echo ${var:0:5}
+          echo $test_str |grep nocobase
           echo "action_state=yellow" >> $GITHUB_ENV
           test_str=$(npm view '@nocobase/server')
           echo ${test_str:0:0}
