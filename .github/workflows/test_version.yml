@@ -19,9 +19,11 @@ jobs:
         run: |
           echo '::echo::on'
           echo "action_state=yellow" >> $GITHUB_ENV
-          version_str=$(npm view '@nocobase/server')
+          version_str=${$(npm view '@nocobase/server'):0:1}
           echo "version_info=$version_str" >> $GITHUB_ENV
           echo ${{ env.version_info }}
+          version=${version_str##@*}
+          echo $version
         shell: bash {0}
       - 
         run: |
