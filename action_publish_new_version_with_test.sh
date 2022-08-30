@@ -14,7 +14,7 @@ npm config set registry http://verdaccio:4873
 
 version_info_line=$(npm view '@nocobase/server')
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
-echo '::set-output name=VERSION::$version'
+
 package_info=$(cat packages/app/server/package.json)
 if [[ $package_info=~$version ]]
 then
