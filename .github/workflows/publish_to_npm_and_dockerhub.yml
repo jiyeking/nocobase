@@ -57,9 +57,6 @@ jobs:
           echo '::echo::on'
           chmod +x ./action_publish_new_version_with_test.sh
           ./action_publish_new_version_with_test.sh
-          echo 'var version is $version '
-          echo 'env version is ${{ env.version }}'
-          echo '::set-output name=VERSION::${{ env.version }}'
         shell: bash {0}
     outputs:
       version: ${{ steps.publish_version.outputs.VERSION }}
