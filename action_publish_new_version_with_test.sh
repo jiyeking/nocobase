@@ -17,6 +17,7 @@ echo $version_info_line
 echo $version_info_line |awk '{print $1}'
 echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}'
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
+export version=$version
 echo "version is $version"
 package_info=$(cat packages/app/server/package.json)
 echo "package_info is $package_info"
