@@ -38,6 +38,7 @@ cd my-nocobase-app
 yarn install
 yarn nocobase install --lang=zh-CN
 yarn start > start.log &
+sleep 10
 n=0
 while [ $n -le 100 ] 
 do
@@ -50,8 +51,7 @@ do
     echo $start_flag_str
     break
   else
-    echo "ERROR! start NocoBase server fail!"
-    exit 1
+    echo "on starting...."
   fi 
   n=$n+1;
   sleep 10
