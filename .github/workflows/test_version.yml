@@ -25,7 +25,13 @@ jobs:
           yarn nocobase install --lang=zh-CN
           yarn start > start.log &
           cat start.log
+          sleep 5
           cat start.log
+          sleep 5
           cat start.log
+          sleep 5
           cat start.log
+          sleep 10
+          lang_data=$(curl http://localhost:13000/api/app:getLang)
+          echo $lang_data
         shell: bash {0}
