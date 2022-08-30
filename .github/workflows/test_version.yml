@@ -15,29 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     container: node:${{ matrix.node_version }}
     steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
       - 
         run: |
           echo '::echo::on'
-          var=http://www.aaa.com/123.htm
-          echo ${var:0:5}
-          test_str=$(npm view '@nocobase/server')
-          echo $test_str
-          echo ${var:0:5}
-          echo ${var:0:5}
-          echo $test_str |awk '{print $1}' |awk -F '@' '{print $3}'
-          
-          echo "action_state=yellow" >> $GITHUB_ENV
-          test_str=$(npm view '@nocobase/server')
-          echo ${test_str:0:0}
-          version_str=${$(npm view '@nocobase/server'):0:1}
-          echo "version_info=$version_str" >> $GITHUB_ENV
-          echo ${{ env.version_info }}
-          version=${version_str##@*}
-          echo $version
+          package_info=$(cat packages/app/server/package.json)
+          result=$(echo $package_info |grep "version")
+          echo $package_info |awk '{print $1}'
+          echo $package_info |awk '{print $2}'
+          echo $package_info |awk '{print $0}'
+          echo "result is $result"
         shell: bash {0}
-      - 
-        run: |
-          import os
-          print(os.environ)
-          print(os.environ['version_info'])
-        shell: python {0}
