@@ -58,6 +58,8 @@ jobs:
           ./action_publish_new_version_with_test.sh
           echo '::set-output name=VERSION::$version'
         shell: bash {0}
+    outputs:
+      version: ${{ steps.publish_version.outputs.VERSION }}
 
   publish:
     needs: test
