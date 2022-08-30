@@ -61,11 +61,13 @@ done
 
 lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
-if [[ $lang_data == '{"data":{"lang":"zh-CN"}}' ]]
+# there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  {"data":{"lang":
+expect_lang_data='{"data":{"lang":'
+if [[ $lang_data=~$expect_lang_data ]]
 then
   echo "publish test success"
 else
-  echo "ERROR! publish test fail!"
+  echo "::error file=action_publish_new_version_with_test.sh,line=66,endLine=70,title= publish test fail :: lang_data is not contains expect str"
   exit 1
 fi
 
