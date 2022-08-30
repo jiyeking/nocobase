@@ -77,7 +77,8 @@ jobs:
           image: ${{ env.registry_name_space }}/${{ env.repo_name }}
           tags: ${{ needs.test.outputs.version }}, latest
           registry: ${{ env.registry }}
-          dockerfile: ./docker/nocobase/Dockerfile
+          dockerfile: Dockerfile
+          directory: ./docker/nocobase/
           username: ${{ env.registry_name_space }}
           password: ${{ secrets.DOCKERHUB_YONGFEILI }} 
 
