@@ -22,7 +22,7 @@ jobs:
         run: |
           echo '::echo::on'
           package_info=$(cat packages/app/server/package.json)
-          version= "0.7.4-alpha.8"
+          version="0.7.4-alpha.8"
           result=$(echo $package_info |grep $version)
           echo $package_info |awk -F 'version' '{print $1}'
           echo $package_info |awk '{print $2}'
