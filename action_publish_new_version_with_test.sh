@@ -12,7 +12,7 @@ git commit -m "chore(versions): publish packages xxx"
 yarn release:force --registry http://verdaccio:4873
 npm config set registry http://verdaccio:4873
 
-version_info_line=$(npm view '@nocobase/server' | grep '@nocobase/server@')
+version_info_line=$(npm view '@nocobase/server' | grep '@nocobase\/server@')
 version=$(echo $version_info_line | awk '{print $1}' | awk -F '@' '{print $3}')
 echo "version is $version"
 result=$(cat packages/app/server/package.json | grep $version)
