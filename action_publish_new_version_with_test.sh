@@ -38,12 +38,14 @@ cd my-nocobase-app
 yarn install
 yarn nocobase install --lang=zh-CN
 yarn start > start.log &
-n=0;
-while($n<=100) do
+n=0
+while [ $n -le 100 ] 
+do
  # NocoBase server running at: http://localhost:13000/
   cat start.log
-  start_flag_str=$(cat start.log |grep "NocoBase server running at")
-  if [[ $start_flag_str != "" ]]
+  start_flag_str=$(cat start.log)
+  start_flag='NocoBase server running at'
+  if [[ $start_flag_str=~$start_flag ]]
   then
     echo $start_flag_str
     break
@@ -52,7 +54,7 @@ while($n<=100) do
     exit 1
   fi 
   n=$n+1;
-  sleep 10;
+  sleep 10
 done
 
 # {"data":{"lang":"zh-CN"}}
