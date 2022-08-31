@@ -74,7 +74,7 @@ jobs:
           echo "this env.test_flag : ${{ env.test_flag }}"
           echo '::set-output name=test_flag::${{ env.test_flag }}'
       - name: publish npmjs.org
-        if: (${{ env.test_flag }} == 'success')
+        if: (${{ env.test_flag }} == 0)
         run: | 
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           yarn release:force --registry https://registry.npmjs.org
@@ -84,7 +84,7 @@ jobs:
 
   publish-dockerhub:
     needs: test
-    if: (${{ needs.test.outputs.output_test_flag }} == 'success')
+    if: (${{ needs.test.outputs.output_test_flag }} == 0)
     runs-on: ubuntu-latest
     steps:
       -
