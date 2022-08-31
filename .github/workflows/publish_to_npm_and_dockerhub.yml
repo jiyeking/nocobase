@@ -73,11 +73,7 @@ jobs:
           echo '::set-output name=version::${{ env.version }}'
           echo "this env.test_flag : ${{ env.test_flag }}"
           echo '::set-output name=test_flag::${{ env.test_flag }}'
-      - name: publish npmjs.org
-        if: ${{ env.test_flag }} == 0
-        run: | 
-          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-          yarn release:force --registry https://registry.npmjs.org
+     
     outputs:
       output_version: ${{ steps.set_out.outputs.version }}
       output_test_flag: ${{ steps.set_out.outputs.test_flag }}
