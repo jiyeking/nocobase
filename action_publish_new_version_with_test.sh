@@ -15,12 +15,15 @@ npm config set registry http://verdaccio:4873
 version_info_line=$(npm view '@nocobase/server')
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
 
+test_success=true
+
 package_info=$(cat packages/app/server/package.json)
 if [[ $package_info=~$version ]]
 then
   echo "publish test npm registry success"
 else
-  echo "ERROR! publish test npm registry version different with package.json version!"
+  echo "::error file=action_publish_new_version_with_test.sh,line=21,endLine=28,title= publish test fail :: publish test npm registry version different with package.json version!"
+  test_success=false
   exit 1
 fi
 
@@ -64,6 +67,7 @@ then
   echo "publish test success"
 else
   echo "::error file=action_publish_new_version_with_test.sh,line=66,endLine=70,title= publish test fail :: lang_data is not contains expect str"
+  test_success=false
   exit 1
 fi
 
