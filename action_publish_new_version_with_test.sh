@@ -2,42 +2,29 @@
 
 # npm whoami --registry http://verdaccio:4873
 # if auto version - auto version and git add version commit info
-yarn version:alpha -y
-git config user.email "test@mail.com"
-git config user.name "test"
-git add .
-git commit -m "chore(versions): publish packages xxx"
+#yarn version:alpha -y
+#git config user.email "test@mail.com"
+#git config user.name "test"
+#git add .
+#git commit -m "chore(versions): publish packages xxx"
 
 # publish test npm registry
 yarn release:force --registry http://verdaccio:4873
 npm config set registry http://verdaccio:4873
 
 version_info_line=$(npm view '@nocobase/server')
-version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
+version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}' |sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
 
-test_success=true
-echo 'test_success is $test_success'
-str1="abcdefgh"
-str2="def"
-if [[ $str1 =~ $str2 ]];then
-    echo "包含"
-else
-    echo "不包含"
-fi
-str2="defddddd"
-if [[ $str1 =~ $str2 ]];then
-    echo "包含"
-else
-    echo "不包含"
-fi
+# test flag success or fail
+test_flag="success"
+echo 'test_flag is $test_flag'
 
 package_info=$(cat packages/app/server/package.json)
-if [[ $package_info=~$version ]]
-then
+if [[ $package_info =~ $version ]];then
   echo "publish test npm registry success"
 else
   echo "::error file=action_publish_new_version_with_test.sh,line=21,endLine=28,title= publish test fail :: publish test npm registry version different with package.json version!"
-  test_success=false
+  test_flag='fail'
   exit 1
 fi
 
@@ -51,7 +38,6 @@ cd my-nocobase-app
 yarn install
 yarn nocobase install --lang=zh-CN
 yarn start > start.log &
-sleep 10
 n=0
 while [ $n -le 100 ] 
 do
@@ -59,8 +45,7 @@ do
   cat start.log
   start_flag_str=$(cat start.log)
   start_flag='NocoBase server running at'
-  if [[ $start_flag_str=~$start_flag ]]
-  then
+  if [[ $start_flag_str =~ $start_flag ]];then
     echo $start_flag_str
     break
   else
@@ -76,12 +61,11 @@ lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
 # there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  {"data":{"lang":
 expect_lang_data='{"data":{"lang":ttttt'
-if [[ $lang_data=~$expect_lang_data ]]
-then
+if [[ $lang_data =~ $expect_lang_data ]];then
   echo "publish test success"
 else
   echo "::error file=action_publish_new_version_with_test.sh,line=66,endLine=70,title= publish test fail :: lang_data is not contains expect str"
-  test_success=false
+  test_flag='fail'
   exit 1
 fi
 
