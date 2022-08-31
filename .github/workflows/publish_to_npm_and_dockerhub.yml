@@ -61,17 +61,28 @@ jobs:
           version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}' |sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
           echo $version
           echo "version=$version" >> $GITHUB_ENV
+          echo "test_success is $test_success"
+          echo "test_success=$test_success" >> $GITHUB_ENV
         shell: bash {0}
       - name: set output
         id: set_out
         run: |
           echo "this env.version : ${{ env.version }}"
           echo '::set-output name=version::${{ env.version }}'
+          echo "this env.test_success : ${{ env.test_success }}"
+          echo '::set-output name=test_success::${{ env.test_success }}'
+      - name: publish npmjs.org
+        if: ${{ env.test_success }}
+        run: | 
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+          yarn release:force --registry https://registry.npmjs.org
     outputs:
       output_version: ${{ steps.set_out.outputs.version }}
+      output_test_success: ${{ steps.set_out.outputs.test_success }}
 
-  publish:
+  publish-dockerhub:
     needs: test
+    if: ${{ needs.test.outputs.output_test_success }}
     runs-on: ubuntu-latest
     steps:
       -
