@@ -17,7 +17,11 @@ version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}' |se
 
 # test flag success or fail
 test_flag="success"
-echo 'test_flag is $test_flag'
+echo "test_flag is $test_flag"
+echo "github_env is $GITHUB_ENV"
+echo $GITHUB_ENV
+echo "test_flag=$test_flag" >> $GITHUB_ENV
+echo $GITHUB_ENV
 
 package_info=$(cat packages/app/server/package.json)
 if [[ $package_info =~ $version ]];then
@@ -60,7 +64,7 @@ done
 lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
 # there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  {"data":{"lang":
-expect_lang_data='{"data":{"lang":ttttt'
+expect_lang_data='{"data":{"lang":'
 if [[ $lang_data =~ $expect_lang_data ]];then
   echo "publish test success"
 else
