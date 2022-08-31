@@ -73,15 +73,40 @@ jobs:
           echo '::set-output name=version::${{ env.version }}'
           echo "this env.test_flag : ${{ env.test_flag }}"
           echo '::set-output name=test_flag::${{ env.test_flag }}'
+          exit ${{ env.test_flag }}
      
     outputs:
       output_version: ${{ steps.set_out.outputs.version }}
       output_test_flag: ${{ steps.set_out.outputs.test_flag }}
-
-  publish-dockerhub:
+      
+  publish_npmjs_org:
     needs: test
-    if: ${{ needs.test.outputs.output_test_flag }} == 0
+    if: ${{ success() }}
+    strategy:
+      matrix:
+        node_version: ['14']
     runs-on: ubuntu-latest
+    container: node:${{ matrix.node_version }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3 
+      - 
+        name: yarn install and build
+        run: |
+          yarn config set registry https://registry.npmjs.org/
+          yarn install
+          yarn build
+      - 
+        name: publish npmjs.org
+        run: | 
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+          yarn release:force --registry https://registry.npmjs.org
+          
+  publish-dockerhub:
+    needs: [test, publish_npmjs_org]
+    if: ${{ success() }}
+    runs-on: ubuntu-laest
     steps:
       -
         name: Checkout
