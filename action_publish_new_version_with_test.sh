@@ -16,6 +16,20 @@ version_info_line=$(npm view '@nocobase/server')
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}')
 
 test_success=true
+echo 'test_success is $test_success'
+str1="abcdefgh"
+str2="def"
+if [[ $str1 =~ $str2 ]];then
+    echo "包含"
+else
+    echo "不包含"
+fi
+str2="defddddd"
+if [[ $str1 =~ $str2 ]];then
+    echo "包含"
+else
+    echo "不包含"
+fi
 
 package_info=$(cat packages/app/server/package.json)
 if [[ $package_info=~$version ]]
