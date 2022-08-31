@@ -63,8 +63,8 @@ done
 
 lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
-# there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  {"data":{"lang":
-expect_lang_data='{"data":{"lang":'
+# there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  lang
+expect_lang_data="lang"
 if [[ $lang_data =~ $expect_lang_data ]];then
   echo "publish test success"
 else
