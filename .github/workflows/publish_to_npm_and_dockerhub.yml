@@ -57,12 +57,13 @@ jobs:
           echo '::echo::on'
           chmod +x ./action_publish_new_version_with_test.sh
           ./action_publish_new_version_with_test.sh
+          echo $?
+          echo "上面是脚本输出结果"
           version_info_line=$(npm view '@nocobase/server')
           version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}' |sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
           echo $version
           echo "version=$version" >> $GITHUB_ENV
-          echo "test_flag is $test_flag"
-          echo "test_flag=$test_flag" >> $GITHUB_ENV
+          echo "this env.test_flag : ${{ env.test_flag }}"
         shell: bash {0}
       - name: set output
         id: set_out
