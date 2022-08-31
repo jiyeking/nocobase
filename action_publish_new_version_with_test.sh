@@ -15,20 +15,12 @@ npm config set registry http://verdaccio:4873
 version_info_line=$(npm view '@nocobase/server')
 version=$(echo $version_info_line |awk '{print $1}' |awk -F '@' '{print $3}' |sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
 
-# test flag success or fail
-test_flag="success"
-echo "test_flag is $test_flag"
-echo "github_env is $GITHUB_ENV"
-echo $GITHUB_ENV
-echo "test_flag=$test_flag" >> $GITHUB_ENV
-echo $GITHUB_ENV
 
 package_info=$(cat packages/app/server/package.json)
 if [[ $package_info =~ $version ]];then
   echo "publish test npm registry success"
 else
   echo "::error file=action_publish_new_version_with_test.sh,line=21,endLine=28,title= publish test fail :: publish test npm registry version different with package.json version!"
-  test_flag='fail'
   exit 1
 fi
 
@@ -64,12 +56,11 @@ done
 lang_data=$(curl http://localhost:13000/api/app:getLang)
 echo $lang_data
 # there is something wrong ,yarn nocobase install --lang=zh-CN but actual is get en-US,so just test  lang
-expect_lang_data="lang--"
+expect_lang_data="lang"
 if [[ $lang_data =~ $expect_lang_data ]];then
   echo "publish test success"
 else
   echo "::error file=action_publish_new_version_with_test.sh,line=66,endLine=70,title= publish test fail :: lang_data is not contains expect str"
-  test_flag='fail'
   exit 1
 fi
 
