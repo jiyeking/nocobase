@@ -15,6 +15,7 @@ env:
   registry: registry.cn-hongkong.aliyuncs.com
   registry_name_space: yongfeili
   repo_name: nocobase
+  docker_compose_file: ./docker/nocobase-full/mysql-docker-compose.yml
   
 jobs:
   docker:
@@ -55,8 +56,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_HOST_USERNAME }}
           password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
-          source: "docker/nocobase-full/mysql-docker-compose.yml"
-          target: "deploy"
+          source: ${{ env.DOCKER_COMPOSE_FILE }}
+          target: "/deploy"
       - 
         name: ssh deploy
         uses: appleboy/ssh-action@master
@@ -68,5 +69,6 @@ jobs:
             docker login --username=${{ secrets.ALI_REGISTRY_NAME }} --password=${{ secrets.ALI_REGISTRY_PWD }} ${{ env.registry }}
             docker pull ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
             export IMAGETAG=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
-            docker-compose up -d
+            cd /deploy
+            docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
         
