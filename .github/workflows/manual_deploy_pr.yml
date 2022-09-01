@@ -12,7 +12,7 @@ on:
           - bug
 
 env:
-  registry: registry.cn-hangzhou.aliyuncs.com
+  registry: registry.cn-hongkong.aliyuncs.com
   registry_name_space: yongfeili
   repo_name: nocobase
   
