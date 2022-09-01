@@ -17,20 +17,7 @@ jobs:
     steps:
       - 
         run: |
-          echo '::echo::on'
-          yarn create nocobase-app my-nocobase-app -d sqlite
-          cd my-nocobase-app
-          yarn install
-          yarn nocobase install --lang=zh-CN
-          yarn start > start.log &
-          cat start.log
-          sleep 5
-          cat start.log
-          sleep 5
-          cat start.log
-          sleep 5
-          cat start.log
-          sleep 10
-          lang_data=$(curl http://localhost:13000/api/app:getLang)
-          echo $lang_data
+          echo ${{env.TEST_ENV}}
+          echo ${{secrets.TEST_ENV}}
+          echo $TEST_ENV
         shell: bash {0}
