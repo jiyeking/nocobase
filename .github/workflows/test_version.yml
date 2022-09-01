@@ -6,8 +6,6 @@ name: test_version
 on:
   push:
 
-env:
-  TEST_ENV: ${{ secrets.TEST_ENV }}
 jobs:
   test:
     strategy:
@@ -15,6 +13,9 @@ jobs:
         node_version: ['14']
 
     runs-on: ubuntu-latest
+    environment: 
+      name: TEST_ENV
+      url: https://github.com
     container: node:${{ matrix.node_version }}
     steps:
       - 
