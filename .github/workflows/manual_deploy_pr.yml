@@ -55,8 +55,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_HOST_USERNAME }}
           password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
-          source: "./docker/nocobase-full/mysql-docker-compose.yml"
-          target: "/deploy"
+          source: "docker/nocobase-full/mysql-docker-compose.yml"
+          target: "deploy"
       - 
         name: ssh deploy
         uses: appleboy/ssh-action@master
