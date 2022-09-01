@@ -6,6 +6,8 @@ name: test_version
 on:
   push:
 
+env:
+  TEST_ENV: ${{ secrets.TEST_ENV }}
 jobs:
   test:
     strategy:
