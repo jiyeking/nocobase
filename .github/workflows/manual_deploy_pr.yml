@@ -56,7 +56,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_HOST_USERNAME }}
           password: ${{ secrets.DEPLOY_HOST_PASSWORD }}
-          source: ${{ env.DOCKER_COMPOSE_FILE }}
+          source: ${{ env.docker_compose_file }}
           target: "/deploy"
       - 
         name: ssh deploy
@@ -70,5 +70,5 @@ jobs:
             docker pull ${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
             export IMAGETAG=${{ env.registry }}/${{ env.registry_name_space }}/${{ env.repo_name }}:${{ inputs.deploy_pr_type }}-${{ github.sha }}
             cd /deploy
-            docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
+            docker-compose -f ${{ env.docker_compose_file }} up -d
         
